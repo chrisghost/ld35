@@ -23,11 +23,16 @@ Aliens.prototype.launchMissile = function() {
 
   m.anchor.set(0.5)
   m.angle = from * 180 / Math.PI
-  m.body.velocity.x = -(Math.cos(from) * this.baseSpeed),
-  m.body.velocity.y = -(Math.sin(from) * this.baseSpeed)
 
-  //m.body.thrust(400)
-  //console.log(m)
+  vx = (this.game.width / 2) - fromx //-(Math.cos(from) * this.baseSpeed),
+  vy = (this.game.height / 2) - fromy // -(Math.sin(from) * this.baseSpeed)
+
+    var v = Math.abs(vx) + Math.abs(vy)
+  console.log(vx, vy, v)
+
+  m.body.velocity.x = (vx / v) * this.baseSpeed //(this.game.width / 2) - fromx //-(Math.cos(from) * this.baseSpeed),
+  m.body.velocity.y = (vy / v) * this.baseSpeed //(this.game.height / 2) - fromy // -(Math.sin(from) * this.baseSpeed)
+
   m.body.setCollisionGroup(this.missilesCollisions)
 
   return m

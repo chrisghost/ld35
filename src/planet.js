@@ -74,8 +74,8 @@ Planet.prototype.generate = function() {
         sp.body.static = true
         this.nbBlocks++
 
-        //if(this.inFinalShapeTriangle(x, y)) {
-        if(this.inFinalShapeCircle(x, y)) {
+        if(this.inFinalShapeTriangle(x, y)) {
+        //if(this.inFinalShapeCircle(x, y)) {
           sp.tint = 0xffaaff
           sp.keepIt = true
           this.nbBlocksToKeep++
@@ -110,7 +110,7 @@ Planet.prototype.inFinalShapeCircle = function(x, y) {
 }
 
 Planet.prototype.inFinalShapeTriangle = function(x, y) {
-  var tsize = 0.7 * this.radius
+  var tsize = 0.9 * this.radius
 
   var tax = this.planetCenter.x + Math.cos(0) * tsize
   var tay = this.planetCenter.y + Math.sin(0) * tsize
