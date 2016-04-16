@@ -5,7 +5,7 @@ Game.prototype.create = function () {
 
   this.player = new Player()
   this.player.init(this.game)
-  this.input.onDown.add(this.onInputDown, this);
+  //this.input.onDown.add(this.onInputDown, this);
 
   this.cursors = this.game.input.keyboard.createCursorKeys()
 
@@ -29,7 +29,9 @@ Game.prototype.update = function () {
   this.game.physics.arcade.collide(
       this.aliens.missiles,
       this.planet.bits,
-      this.missileHit
+      this.missileHitPlanet,
+      null,
+      this
   )
 
   if(this.cursors.up.isDown) {
@@ -42,18 +44,27 @@ Game.prototype.update = function () {
   }
 
   this.player.update(this.game.time.elapsed)
+
+
+  if(this.planet.nbBlocksToKeep < 10) console.log("You loose")
+  if(this.planet.nbBlocksToKeep / this.planet.nbBlocks > 0.8) console.log("You win!!")
+
+
+  this.game.debug.text("N blocks : " + this.planet.nbBlocks, 10, 10)
+  this.game.debug.text("N blocks to keep : " + this.planet.nbBlocksToKeep, 10, 30)
+  this.game.debug.text("Prc : " + this.planet.nbBlocksToKeep / this.planet.nbBlocks, 10, 50)
 };
 
-Game.prototype.missileHit = function (m, b) {
-  //m.body.destroy()
-  //b.body.destroy()
+Game.prototype.missileHitPlanet = function (m, b) {
+  m.kill()
+  b.kill()
+  this.planet.nbBlocks--
+  if(b.keepIt) this.planet.nbBlocksToKeep--
+}
 
+Game.prototype.missileHit = function (m, b) {
   m.kill()
   b.kill()
 }
-
-Game.prototype.onInputDown = function () {
-  this.game.state.start('menu');
-};
 
 module.exports = Game;
