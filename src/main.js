@@ -1,3 +1,4 @@
+Player = require('./player')
 var game = new Phaser.Game(640, 480, Phaser.AUTO, 'ld35-game');
 game.state.add('boot', require('./boot'));
 game.state.add('preloader', require('./preloader'));

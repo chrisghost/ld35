@@ -2,6 +2,7 @@ function Boot() {}
 
 Boot.prototype.preload = function () {
   this.load.image('preloader', 'assets/preloader.gif');
+  this.load.image('player', 'assets/player.png');
 };
 
 Boot.prototype.create = function () {
