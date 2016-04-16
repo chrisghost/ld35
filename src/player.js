@@ -12,15 +12,39 @@ Player.prototype.init = function(game) {
 
   this.missiles = this.game.add.group()
   this.missiles.enableBody = true
+  this.missiles.physicsBodyType = Phaser.Physics.P2JS
+  //this.missiles.enableBodyDebug = true
+
+  this.shields = this.game.add.group()
+  this.shields.enableBody = true
+  this.shields.physicsBodyType = Phaser.Physics.P2JS
 
   this.baseSpeed = 100
   this.missileRate = 200
   this.missileTimer = 0
+
+  this.missilesCollisions = this.game.physics.p2.createCollisionGroup()
+  this.shieldsCollisions = this.game.physics.p2.createCollisionGroup()
+}
+
+Player.prototype.shield = function() {
+
+  var x = this.sprite.x + Math.cos(this.angle) * 20
+  var y = this.sprite.y + Math.sin(this.angle) * 20
+
+  var s = this.shields.create(x, y, 'shield')
+  s.angle = this.angle * 180 / Math.PI
+  s.life = 3
+  s.body.angle = s.angle
+  s.body.static = true
+  s.body.setCollisionGroup(this.shieldsCollisions)
+
+  return s
 }
 
 Player.prototype.fire = function() {
-  if(this.missileTimer > 0) return;
-  console.log("Time", this.missileTimer)
+  if(this.missileTimer > 0) return null;
+  //console.log("Time", this.missileTimer)
 
   this.missileTimer = this.missileRate
 
@@ -29,14 +53,14 @@ Player.prototype.fire = function() {
   var fromx = this.sprite.x
   var fromy = this.sprite.y
 
-  for(var a = -0.3; a < 0.4; a+=0.3) {
+  //for(var a = -0.1; a < 0.2; a+=0.1) {
     var m = this.missiles.create(fromx, fromy, 'player_missile')
     m.anchor.set(0.5)
-    m.body.velocity.setTo(
-        (Math.cos(from+a) * this.baseSpeed),
-        (Math.sin(from+a) * this.baseSpeed)
-    )
-  }
+    m.body.velocity.x = (Math.cos(from) * this.baseSpeed)
+    m.body.velocity.y = (Math.sin(from) * this.baseSpeed)
+  //}
+  //
+  return m
 }
 
 Player.prototype.goLeft = function() {

@@ -1,10 +1,17 @@
 function Planet() {}
 
-Planet.prototype.init = function(game) {
+Planet.prototype.init = function(game, aliensMissilesCG) {
   console.log("new planet")
   this.game = game
+
+  this.aliensMissilesCG = aliensMissilesCG
+
   this.bits = this.game.add.group()
   this.bits.enableBody = true
+  this.bits.physicsBodyType = Phaser.Physics.P2JS
+  //this.bits.enableBodyDebug = true
+
+  this.bitsCollisions = this.game.physics.p2.createCollisionGroup()
 
   this.planetCenter = {x: this.game.width / 2, y: this.game.height / 2}
 
@@ -62,6 +69,9 @@ Planet.prototype.generate = function() {
       if(this.dst({x: x, y: y}, this.planetCenter) < this.radius) {
         var sp = this.bits.create(x, y, 'planet_bit')
         sp.keepIt = false
+        sp.body.setCollisionGroup(this.bitsCollisions)
+        sp.body.collides(this.aliensMissilesCG)
+        sp.body.static = true
         this.nbBlocks++
 
         //if(this.inFinalShapeTriangle(x, y)) {

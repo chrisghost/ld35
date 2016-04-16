@@ -5,8 +5,12 @@ Aliens.prototype.init = function(game) {
 
   this.missiles = this.game.add.group()
   this.missiles.enableBody = true
+  this.missiles.physicsBodyType = Phaser.Physics.P2JS
+  //this.missiles.enableBodyDebug = true
 
   this.baseSpeed = 100
+
+  this.missilesCollisions = this.game.physics.p2.createCollisionGroup()
 }
 
 Aliens.prototype.launchMissile = function() {
@@ -19,10 +23,14 @@ Aliens.prototype.launchMissile = function() {
 
   m.anchor.set(0.5)
   m.angle = from * 180 / Math.PI
-  m.body.velocity.setTo(
-      -(Math.cos(from) * this.baseSpeed),
-      -(Math.sin(from) * this.baseSpeed)
-  )
+  m.body.velocity.x = -(Math.cos(from) * this.baseSpeed),
+  m.body.velocity.y = -(Math.sin(from) * this.baseSpeed)
+
+  //m.body.thrust(400)
+  //console.log(m)
+  m.body.setCollisionGroup(this.missilesCollisions)
+
+  return m
 }
 
 module.exports = Aliens;
