@@ -1,6 +1,9 @@
 function Game() {}
 
 Game.prototype.create = function () {
+  this.game.plugins.screenShake = this.game.plugins.add(Phaser.Plugin.ScreenShake);
+
+
   this.game.physics.startSystem(Phaser.Physics.P2JS)
   this.game.physics.p2.setImpactEvents(true);
 
@@ -16,9 +19,17 @@ Game.prototype.create = function () {
   this.planet = new Planet()
   this.planet.init(this.game, this.aliens.missilesCollisions)
 
-  this.game.time.events.loop(Phaser.Timer.SECOND, this.launchAlienMissile, this);
+  this.game.time.events.loop(500, this.launchAlienMissile, this);
 
   this.cursors.down.onDown.add(this.createShield, this)
+
+
+  this.particles = this.game.add.emitter(0, 0, 100)
+  this.particles.makeParticles('particle')
+  this.particles.gravity = 0
+  this.particles.setRotation(10, 10)
+  this.particles.setAlpha(0.3, 0.8)
+  this.particles.setScale(0.5, 1)
 
 };
 
@@ -30,8 +41,8 @@ Game.prototype.createShield = function () {
 Game.prototype.launchAlienMissile = function () {
   var m = this.aliens.launchMissile()
 
-  m.body.collides(this.player.missilesCollisions, this.missileHit)
-  m.body.collides(this.player.shieldsCollisions, this.missileHitShield)
+  m.body.collides(this.player.missilesCollisions, this.missileHit, this)
+  m.body.collides(this.player.shieldsCollisions, this.missileHitShield, this)
   m.body.collides([this.planet.bitsCollisions], this.missileHitPlanet, this)
 }
 Game.prototype.launchPlayerMissile = function () {
@@ -44,6 +55,12 @@ Game.prototype.launchPlayerMissile = function () {
         m.sprite.kill()
         m.destroy()
       })
+}
+
+Game.prototype.particleBurst = function (x, y) {
+  this.particles.x = x
+  this.particles.y = y
+  this.particles.start(true, 500, null, 5)
 }
 
 Game.prototype.update = function () {
@@ -73,18 +90,28 @@ Game.prototype.update = function () {
 Game.prototype.missileHitPlanet = function (m, b) {
   console.log("missileHitPlanet ")
 
+  this.particleBurst(m.sprite.x, m.sprite.y)
+
+  this.planet.nbBlocks--
+
+  if(b.sprite.keepIt) {
+    this.planet.nbBlocksToKeep--
+    this.game.plugins.screenShake.shake(10)
+  }
+
   m.sprite.kill()
   m.destroy()
 
   b.sprite.kill()
   b.destroy()
 
-  this.planet.nbBlocks--
-  if(b.keepIt) this.planet.nbBlocksToKeep--
 }
 
 Game.prototype.missileHitShield = function (m, s) {
   console.log("missileHitShield ", s.sprite.life)
+
+  this.particleBurst(m.sprite.x, m.sprite.y)
+
   m.sprite.kill()
   m.destroy()
   s.sprite.life--
