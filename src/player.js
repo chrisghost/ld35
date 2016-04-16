@@ -57,6 +57,7 @@ Player.prototype.destroyedMissile = function() {
   this.destroyedMissiles++
   this.maxShields = 3 + Math.floor(this.destroyedMissiles / 10)
   this.shieldLife = 3 + Math.floor(this.destroyedMissiles / 7)
+  if(this.shieldLife > 10) this.shieldLife = 10
 }
 
 Player.prototype.fire = function() {

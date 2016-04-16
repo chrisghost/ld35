@@ -88,24 +88,40 @@ Game.prototype.update = function () {
     this.player.update(this.game.time.elapsed)
 
 
-    if(this.planet.nbBlocksToKeep < 30) {
+    if(this.planet.nbBlocksToKeep < 30
+        || this.nbBlocksToKeep / this.baseNbBlocksToKeep < 0.8
+        ) {
       this.gameRunning = false
+      this.gameWon = false
     }
-    if(this.planet.nbBlocksToKeep / this.planet.nbBlocks > 0.8) {
+    if(this.planet.nbBlocksToKeep / this.planet.nbBlocks > 0.9) {
       this.gameRunning = false
+      this.gameWon = true
     }
 
     this.game.debug.text("N blocks : " + this.planet.nbBlocks, 10, 10)
     this.game.debug.text("N blocks to keep : " + this.planet.nbBlocksToKeep, 10, 30)
     this.game.debug.text("Prc : " + this.planet.nbBlocksToKeep / this.planet.nbBlocks, 10, 50)
     this.game.debug.text("Destroyed missiles : " + this.player.destroyedMissiles, 10, 70)
-    this.game.debug.text("Shields : " + this.player.activeShields + " / " + this.player.maxShields + "(" + this.player.shieldLife + " life)", 10, 90)
+    this.game.debug.text("Shields : " + this.player.activeShields + " / " + this.player.maxShields + " (" + this.player.shieldLife + " life)", 10, 90)
 
     //for(var i in this.lines) this.game.debug.geom(this.lines[i])
 
   } else {
       this.game.physics.p2.paused = true //console.log("You win!!")
       this.aliensTimer.loop = false
+
+      if(this.gameWon) {
+        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, 'You won!', {
+          font: '42px Arial', fill: '#ffffff', align: 'center'
+        });
+        text.anchor.set(0.5);
+      } else {
+        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, 'You lost!', {
+          font: '42px Arial', fill: '#ffffff', align: 'center'
+        });
+        text.anchor.set(0.5);
+      }
 
   }
 };

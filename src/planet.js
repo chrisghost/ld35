@@ -18,9 +18,7 @@ Planet.prototype.init = function(game, aliensMissilesCG) {
   this.bitsSize = 8
   this.radius = 64
 
-  this.generate()
-
-
+  /*
   poly = new Phaser.Polygon();
   var tsize = 0.7 * this.radius
 
@@ -41,12 +39,22 @@ Planet.prototype.init = function(game, aliensMissilesCG) {
   graphics.beginFill(0xFF33ff);
   //graphics.drawPolygon(poly.points);
   graphics.endFill();
+  */
 
+  this.shapes = {
+    'triangle': this.inFinalShapeTriangle.bind(this)
+  , 'circle'  : this.inFinalShapeCircle.bind(this)
+  , 'vrect'   : this.inFinalShapeVRect.bind(this)
+  }
+
+
+
+  this.generate('vrect')
 
 
 }
 
-Planet.prototype.generate = function() {
+Planet.prototype.generate = function(shape) {
   var start = {
     x: this.planetCenter.x - this.bitsSize * this.radius,
     y: this.planetCenter.x - this.bitsSize * this.radius
@@ -74,7 +82,7 @@ Planet.prototype.generate = function() {
         sp.body.static = true
         this.nbBlocks++
 
-        if(this.inFinalShapeTriangle(x, y)) {
+        if(this.shapes[shape](x, y)) {
         //if(this.inFinalShapeCircle(x, y)) {
           sp.tint = 0xffaaff
           sp.keepIt = true
@@ -84,6 +92,9 @@ Planet.prototype.generate = function() {
 
     }
   }
+
+  this.baseNbBlocksToKeep = this.baseNbBlocksToKeep
+  this.baseNbBlocksp = this.nbBlocks
 
 }
 
@@ -102,6 +113,20 @@ Planet.prototype.isInsideTriangle = function(x1, y1, x2, y2, x3, y3, x, y) {
   return Math.abs(A - (A1 + A2 + A3)) < 0.1
 }
 
+Planet.prototype.inFinalShapeVRect = function(x, y) {
+
+  var topleftx = this.planetCenter.x - this.bitsSize * 2
+  var toplefty = this.planetCenter.y - this.radius * 0.8
+
+  var bottomrightx = this.planetCenter.x + this.bitsSize * 2
+  var bottomrighty = this.planetCenter.y + this.radius * 0.8
+
+  return ( x >= topleftx
+      &&   x <= bottomrightx
+      &&   y >= toplefty
+      &&   y <= bottomrighty
+      )
+}
 
 Planet.prototype.inFinalShapeCircle = function(x, y) {
   var r = 0.7 * this.radius
