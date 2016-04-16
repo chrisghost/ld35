@@ -23,8 +23,6 @@ Aliens.prototype.launchMissile = function() {
       -(Math.cos(from) * this.baseSpeed),
       -(Math.sin(from) * this.baseSpeed)
   )
-
-  console.log(m.body.velocity)
 }
 
 module.exports = Aliens;

@@ -5,6 +5,7 @@ Boot.prototype.preload = function () {
   this.load.image('player', 'assets/player.png');
   this.load.image('planet_bit', 'assets/planet_bit.png');
   this.load.image('missile', 'assets/missile.png');
+  this.load.image('player_missile', 'assets/playerMissile.png');
 };
 
 Boot.prototype.create = function () {

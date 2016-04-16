@@ -22,16 +22,26 @@ Game.prototype.create = function () {
 Game.prototype.update = function () {
   this.game.physics.arcade.collide(
       this.aliens.missiles,
+      this.player.missiles,
+      this.missileHit
+  )
+
+  this.game.physics.arcade.collide(
+      this.aliens.missiles,
       this.planet.bits,
       this.missileHit
   )
 
+  if(this.cursors.up.isDown) {
+    this.player.fire()
+  }
   if(this.cursors.left.isDown) {
     this.player.goLeft()
   } else if(this.cursors.right.isDown) {
     this.player.goRight()
   }
-  this.player.update()
+
+  this.player.update(this.game.time.elapsed)
 };
 
 Game.prototype.missileHit = function (m, b) {
