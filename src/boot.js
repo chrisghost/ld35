@@ -3,6 +3,7 @@ function Boot() {}
 Boot.prototype.preload = function () {
   this.load.image('preloader', 'assets/preloader.gif');
   this.load.image('player', 'assets/player.png');
+  this.load.image('planet_bit', 'assets/planet_bit.png');
 };
 
 Boot.prototype.create = function () {

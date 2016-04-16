@@ -7,6 +7,9 @@ Game.prototype.create = function () {
   this.input.onDown.add(this.onInputDown, this);
 
   this.cursors = this.game.input.keyboard.createCursorKeys()
+
+  this.planet = new Planet()
+  this.planet.init(this.game)
 };
 
 Game.prototype.update = function () {

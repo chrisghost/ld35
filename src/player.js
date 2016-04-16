@@ -1,8 +1,6 @@
 function Player() {}
 
 Player.prototype.init = function(game) {
-  console.log(game)
-  console.log(this)
   this.game = game
   this.sprite = this.game.add.sprite(100, 100, 'player');
   this.sprite.anchor.set(0.5)
