@@ -4,6 +4,7 @@ Planet.prototype.init = function(game) {
   console.log("new planet")
   this.game = game
   this.bits = this.game.add.group()
+  this.bits.enableBody = true
 
   this.planetCenter = {x: this.game.width / 2, y: this.game.height / 2}
 

@@ -4,6 +4,7 @@ Boot.prototype.preload = function () {
   this.load.image('preloader', 'assets/preloader.gif');
   this.load.image('player', 'assets/player.png');
   this.load.image('planet_bit', 'assets/planet_bit.png');
+  this.load.image('missile', 'assets/missile.png');
 };
 
 Boot.prototype.create = function () {

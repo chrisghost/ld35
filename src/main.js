@@ -1,5 +1,6 @@
 Player = require('./player')
 Planet = require('./planet')
+Aliens = require('./aliens')
 
 var game = new Phaser.Game(640, 480, Phaser.AUTO, 'ld35-game');
 game.state.add('boot', require('./boot'));

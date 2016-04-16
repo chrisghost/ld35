@@ -8,14 +8,15 @@ Player.prototype.init = function(game) {
   this.dstFromCenter = 100
 
   this.angle = 0.0
+  this.angleSpeed = 0.1
 }
 
 Player.prototype.goLeft = function() {
-  this.angle -= 0.05
+  this.angle -= this.angleSpeed
 }
 
 Player.prototype.goRight = function() {
-  this.angle += 0.05
+  this.angle += this.angleSpeed
 }
 
 Player.prototype.update = function() {

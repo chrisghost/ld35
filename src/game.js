@@ -1,8 +1,9 @@
 function Game() {}
 
 Game.prototype.create = function () {
+  this.game.physics.startSystem(Phaser.Physics.ARCADE)
+
   this.player = new Player()
-    console.log(this.game)
   this.player.init(this.game)
   this.input.onDown.add(this.onInputDown, this);
 
@@ -10,9 +11,21 @@ Game.prototype.create = function () {
 
   this.planet = new Planet()
   this.planet.init(this.game)
+
+  this.aliens = new Aliens()
+  this.aliens.init(this.game)
+
+  this.game.time.events.loop(Phaser.Timer.SECOND, this.aliens.launchMissile, this.aliens);
+
 };
 
 Game.prototype.update = function () {
+  this.game.physics.arcade.collide(
+      this.aliens.missiles,
+      this.planet.bits,
+      this.missileHit
+  )
+
   if(this.cursors.left.isDown) {
     this.player.goLeft()
   } else if(this.cursors.right.isDown) {
@@ -20,6 +33,14 @@ Game.prototype.update = function () {
   }
   this.player.update()
 };
+
+Game.prototype.missileHit = function (m, b) {
+  //m.body.destroy()
+  //b.body.destroy()
+
+  m.kill()
+  b.kill()
+}
 
 Game.prototype.onInputDown = function () {
   this.game.state.start('menu');
