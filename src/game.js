@@ -127,20 +127,49 @@ Game.prototype.update = function () {
 };
 
 Game.prototype.missileHitPlanet = function (m, b) {
-  //console.log("missileHitPlanet ")
 
   this.particleBurst(m.sprite.x, m.sprite.y)
-
 
   if(b.sprite.keepIt) {
     this.game.plugins.screenShake.shake(10)
   }
+
+  console.log(m.sprite.explosionSize)
+
+  if(m.sprite.explosionSize > 1) {
+    var bodies = this.game.physics.p2.getBodies()
+      console.log("YEAH")
+    var todestroy = []
+    for(var i in bodies) {
+      //console.log(bodies[i])
+
+      //console.log( this.planet.dst( {x: bodies[i].sprite.x, y: bodies[i].sprite.y} , {x: m.sprite.x, y:m.sprite.y}) )
+
+      try {
+        if(this.planet.dst(
+              {x: bodies[i].x, y: bodies[i].y}
+            , {x: m.sprite.x, y:m.sprite.y}) < m.sprite.explosionSize) {
+          todestroy.push(bodies[i])
+        }
+      } catch (err) {
+        console.log("ERROR!", err)
+      }
+    }
+  }
+
 
   m.sprite.kill()
   m.destroy()
 
   b.sprite.kill()
   b.destroy()
+  for(var i in todestroy) {
+    if(todestroy[i] != null) {
+      if(todestroy[i].sprite != null)
+        todestroy[i].sprite.kill()
+      todestroy[i].destroy()
+    }
+  }
 
 
   this.planet.nbBlocks = this.planet.bits.countLiving()
