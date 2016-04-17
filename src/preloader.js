@@ -31,7 +31,7 @@ Preloader.prototype.loadResources = function () {
   this.load.image('progress_other', 'assets/progress_other.png');
   this.load.image('progress_goal', 'assets/progress_goal.png');
 
-  this.load.spritesheet('level_vrect', 'assets/level_vrect.png', 64, 64, 2);
+  this.load.spritesheet('level_square', 'assets/level_square.png', 64, 64, 2);
   this.load.spritesheet('level_triangle', 'assets/level_triangle.png', 64, 64, 2);
   this.load.spritesheet('level_circle', 'assets/level_circle.png', 64, 64, 2);
 

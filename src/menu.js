@@ -3,7 +3,7 @@ function Menu() {}
 Menu.prototype.create = function () {
   //this.input.onDown.add(this.onInputDown, this);
   if(this.game.theme == null) {
-    this.game.theme = this.game.add.audio('themesong', 0.6, true)
+    this.game.theme = this.game.add.audio('themesong', 0.3, true)
     this.game.theme.play()
   }
 
@@ -90,7 +90,7 @@ Menu.prototype.create = function () {
   this.btn_go.events.onInputDown.add(function() {
     this.game.difficulty = (this.btn_easy.frame == 1) ? 'easy' : (this.btn_medium.frame == 1) ? 'medium' : 'hard'
 
-    this.game.shape = (this.btn_vrect.frame == 1) ? 'vrect' : (this.btn_circle.frame == 1) ? 'circle' : 'triangle'
+    this.game.shape = (this.btn_square.frame == 1) ? 'square' : (this.btn_circle.frame == 1) ? 'circle' : 'triangle'
 
     this.game.state.start('game');
   }, this)
@@ -108,31 +108,32 @@ Menu.prototype.create = function () {
   );
   txt_shapes.anchor.set(1)
 
-  this.btn_vrect = this.game.add.sprite(this.game.width / 2 - 64 - 20, 180, 'level_vrect')
-  this.btn_vrect.inputEnabled = true
-  this.btn_vrect.anchor.set(0.5)
-  this.btn_vrect.events.onInputDown.add(function() {
-    this.btn_vrect.frame = 1
+  this.btn_square = this.game.add.sprite(this.game.width / 2, 180, 'level_square')
+  this.btn_square.inputEnabled = true
+  this.btn_square.anchor.set(0.5)
+  this.btn_square.events.onInputDown.add(function() {
+    this.btn_square.frame = 1
     this.btn_circle.frame = 0
     this.btn_triangle.frame = 0
   }, this)
 
-  this.btn_vrect.frame = 1
 
-  this.btn_circle = this.game.add.sprite(this.game.width / 2, 180, 'level_circle')
+  this.btn_circle = this.game.add.sprite(this.game.width / 2 - 64 - 20, 180, 'level_circle')
   this.btn_circle.inputEnabled = true
   this.btn_circle.anchor.set(0.5)
   this.btn_circle.events.onInputDown.add(function() {
-    this.btn_vrect.frame = 0
+    this.btn_square.frame = 0
     this.btn_circle.frame = 1
     this.btn_triangle.frame = 0
   }, this)
+
+  this.btn_circle.frame = 1
 
   this.btn_triangle = this.game.add.sprite(this.game.width / 2 + 64 + 20, 180, 'level_triangle')
   this.btn_triangle.inputEnabled = true
   this.btn_triangle.anchor.set(0.5)
   this.btn_triangle.events.onInputDown.add(function() {
-    this.btn_vrect.frame = 0
+    this.btn_square.frame = 0
     this.btn_circle.frame = 0
     this.btn_triangle.frame = 1
   }, this)

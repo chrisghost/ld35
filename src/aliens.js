@@ -19,12 +19,12 @@ Aliens.prototype.init = function(game) {
   this.explosionSizes = {
     'easy' : 16,
     'medium' : 16,
-    'hard' : 20
+    'hard' : 24
   }
 
   this.bigMissileChance = {
-    'easy' : 0.1,
-    'medium' : 0.3,
+    'easy' : 0.2,
+    'medium' : 0.4,
     'hard' : 0.5
   }
 }

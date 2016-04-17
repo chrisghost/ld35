@@ -68,10 +68,10 @@ Game.prototype.create = function () {
 
   if(this.game.difficulty == 'easy') {
     this.prc_to_win = 0.75
-    this.prc_to_keep = 0.65
+    this.prc_to_keep = 0.75
   } else if(this.game.difficulty == 'medium') {
     this.prc_to_win = 0.9
-    this.prc_to_keep = 0.8
+    this.prc_to_keep = 0.85
   } else if(this.game.difficulty == 'hard') {
     this.prc_to_win = 0.95
     this.prc_to_keep = 0.9
@@ -200,21 +200,22 @@ Game.prototype.update = function () {
       this.aliensTimer.loop = false
 
       if(this.gameWon) {
-        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5,
+        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5 - 50,
             'You won\nScore : '+ this.score 
             , {
           font: '20px Spacebar', fill: '#ffffff', align: 'center'
         });
         text.anchor.set(0.5);
         var text2 = this.add.text(this.game.width * 0.5, this.game.height * 0.5 + 40,
-            "You saved "+this.score+"% of red blocks"
+            "You saved "+this.score+"% of red blocks\n"+
+            "["+this.game.shape+" - "+this.game.difficulty+"]"
             , {
           font: '24px Arial', fill: '#ffffff', align: 'center'
         });
         text2.anchor.set(0.5);
 
       } else {
-        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5,
+        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5 - 50,
             "You lost !"
             , {
           font: '28px Spacebar', fill: '#ffffff', align: 'center'
@@ -223,7 +224,8 @@ Game.prototype.update = function () {
 
         var text2 = this.add.text(this.game.width * 0.5, this.game.height * 0.5 + 100,
             "You had to save\nat least "+(this.prc_to_keep*100)+"% of red blocks !\n"+
-            "There is only "+Math.floor((this.planet.nbBlocksToKeep / this.planet.baseNbBlocksToKeep) * 100) + "% left right now"
+            "There is only "+Math.floor((this.planet.nbBlocksToKeep / this.planet.baseNbBlocksToKeep) * 100) + "% left right now\n"+
+            "["+this.game.shape+" - "+this.game.difficulty+"]"
             , {
           font: '24px Arial', fill: '#ffffff', align: 'center'
         });
