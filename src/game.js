@@ -34,6 +34,15 @@ Game.prototype.create = function () {
   this.gameRunning = true
 
   this.lines = []
+
+  this.audio = {
+    'explosion1': this.game.add.audio('explosion1', 0.3)
+  , 'explosion2': this.game.add.audio('explosion2', 0.3)
+  , 'laser1': this.game.add.audio('laser1', 0.3)
+  , 'hit1': this.game.add.audio('hit1', 0.3)
+  , 'hit2': this.game.add.audio('hit2', 0.3)
+  , 'vanish1': this.game.add.audio('vanish1', 0.3)
+  }
 };
 
 Game.prototype.createShield = function () {
@@ -58,6 +67,8 @@ Game.prototype.launchAlienMissile = function () {
 Game.prototype.launchPlayerMissile = function () {
   var m = this.player.fire()
   if(m == null) return;
+
+  this.audio.laser1.play()
 
   m.body.collides(this.game.physics.p2.boundsCollisionGroup,
       function(m, b) {
@@ -130,8 +141,12 @@ Game.prototype.missileHitPlanet = function (m, b) {
 
   this.particleBurst(m.sprite.x, m.sprite.y)
 
+
   if(b.sprite.keepIt) {
     this.game.plugins.screenShake.shake(10)
+    this.audio.explosion2.play()
+  } else {
+    this.audio.explosion1.play()
   }
 
   console.log(m.sprite.explosionSize)
@@ -183,15 +198,18 @@ Game.prototype.missileHitPlanet = function (m, b) {
 
 Game.prototype.missileHitShield = function (m, s) {
   console.log("missileHitShield ", s.sprite.life)
+  this.audio.hit1.play()
 
   this.player.destroyedMissile()
 
   this.particleBurst(m.sprite.x, m.sprite.y)
 
+
   m.sprite.kill()
   m.destroy()
   s.sprite.life--
   if(s.sprite.life <= 0) {
+    this.audio.vanish1.play()
     this.player.activeShields--
 
     s.sprite.kill()
@@ -202,12 +220,15 @@ Game.prototype.missileHitShield = function (m, s) {
 Game.prototype.missileHit = function (m, b) {
   console.log("missileHit ")
 
+  this.audio.hit2.play()
+
   this.player.destroyedMissile()
 
   m.sprite.kill()
   m.destroy()
 
-  b.sprite.kill()
+  if(b.sprite != null)
+    b.sprite.kill()
   b.destroy()
 }
 

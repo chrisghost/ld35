@@ -9,6 +9,14 @@ Boot.prototype.preload = function () {
   this.load.image('player_missile', 'assets/playerMissile.png');
   this.load.image('shield', 'assets/shield.png');
   this.load.image('particle', 'assets/particle.png');
+
+  this.load.audio('explosion1', 'assets/explosion1.wav');
+  this.load.audio('explosion2', 'assets/explosion2.wav');
+  this.load.audio('laser1', 'assets/laser1.wav');
+  this.load.audio('hit1', 'assets/hit1.wav');
+  this.load.audio('hit2', 'assets/hit2.wav');
+  this.load.audio('vanish1', 'assets/vanish1.wav');
+
 };
 
 Boot.prototype.create = function () {
