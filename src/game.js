@@ -7,7 +7,14 @@ Game.prototype.create = function () {
   this.bkg_xslide = (Math.random() > 0.5) ? 0.1 : -0.1
   this.bkg_yslide = (Math.random() > 0.5) ? 0.1 : -0.1
 
-  this.sound_control = this.game.add.sprite(this.game.width - 42, 10, 'sound_control')
+  this.menu_btn = this.game.add.sprite(this.game.width - 42, 10, 'menu')
+  this.menu_btn.inputEnabled = true
+
+  this.menu_btn.events.onInputDown.add(function() {
+    this.game.state.start('menu')
+  }, this);
+
+  this.sound_control = this.game.add.sprite(this.game.width - 42, 50, 'sound_control')
   this.sound_control.inputEnabled = true
 
   this.sound_control.events.onInputDown.add(function() {
@@ -35,6 +42,8 @@ Game.prototype.create = function () {
 
   this.cursors.down.onDown.add(this.createShield, this)
 
+  //this.cursors.left.onUp.add(this.snapPlayerLeft, this)
+  //this.cursors.right.onUp.add(this.snapPlayerRight, this)
 
   this.particles = this.game.add.emitter(0, 0, 100)
   this.particles.makeParticles('particle')
@@ -91,6 +100,16 @@ Game.prototype.create = function () {
 
   this.game.physics.p2.paused = false
 };
+
+/*
+Game.prototype.snapPlayerLeft = function () {
+  this.player.snap('left')
+}
+
+Game.prototype.snapPlayerRight = function () {
+  this.player.snap('right')
+}
+*/
 
 Game.prototype.createShield = function () {
   var s = this.player.shield()

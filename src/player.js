@@ -9,6 +9,7 @@ Player.prototype.init = function(game) {
 
   this.angle = 0.0
   this.angleSpeed = 0.05
+  this.deltaAngle = 0
 
   this.missiles = this.game.add.group()
   this.missiles.enableBody = true
@@ -97,18 +98,45 @@ Player.prototype.fire = function() {
   return m
 }
 
+/*
+Player.prototype.snap = function(dir) {
+  this.deltaAngle = 0
+  var pace = 0.2
+  //console.log(this.angle, this.angle % pace)
+  var d = (this.angle % pace) * ((dir == 'left') ? 1 : -1)
+  //console.log(">>>>", d)
+  this.deltaAngle = d
+}
+*/
+
 Player.prototype.goLeft = function() {
-  this.angle -= this.angleSpeed
+  this.deltaAngle -= this.angleSpeed
+  //this.angle -= this.angleSpeed
   this.particles.start(true, 300, null, 1)
 }
 
 Player.prototype.goRight = function() {
-  this.angle += this.angleSpeed
+  this.deltaAngle += this.angleSpeed
+  //this.angle += this.angleSpeed
   this.particles.start(true, 300, null, 1)
 }
 
 Player.prototype.update = function(elapsed) {
   this.missileTimer = (this.missileTimer < 0) ? 0 : (this.missileTimer - elapsed)
+
+  if(Math.abs(this.deltaAngle) > 0) {
+    if(this.deltaAngle > 0) {
+      this.deltaAngle -= this.angleSpeed
+      this.angle += this.angleSpeed
+    } else {
+      this.deltaAngle += this.angleSpeed
+      this.angle -= this.angleSpeed
+    }
+    if(Math.abs(this.deltaAngle) < this.angleSpeed) {
+      this.angle += this.deltaAngle
+      this.deltaAngle = 0
+    }
+  }
 
   this.angleToPos(this.angle)
   this.particles.x = this.sprite.x

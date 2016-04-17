@@ -3,7 +3,7 @@ function Menu() {}
 Menu.prototype.create = function () {
   //this.input.onDown.add(this.onInputDown, this);
   if(this.game.theme == null) {
-    this.game.theme = this.game.add.audio('themesong', 0.7, true)
+    this.game.theme = this.game.add.audio('themesong', 0.6, true)
     this.game.theme.play()
   }
 

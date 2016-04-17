@@ -32,6 +32,8 @@ Aliens.prototype.init = function(game) {
 Aliens.prototype.launchMissile = function() {
   var from = Math.random() * 2 * Math.PI
 
+  from = Math.round(from * 10 - (from * 10) % 2) / 10
+
   var fromx = this.game.width / 2 + Math.cos(from) * this.game.width / 2
   var fromy = this.game.height / 2 + Math.sin(from) * this.game.height / 2
 
