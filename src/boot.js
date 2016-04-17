@@ -1,15 +1,22 @@
 function Boot() {}
 
 Boot.prototype.preload = function () {
+  this.load.spritesheet('button', 'assets/button.png', 160, 64, 2);
+
   this.load.image('preloader', 'assets/preloader.gif');
   this.load.image('player', 'assets/player.png');
   this.load.image('planet_bit', 'assets/planet_bit.png');
   this.load.image('missile', 'assets/missile.png');
   this.load.image('big_missile', 'assets/bigMissile.png');
   this.load.image('player_missile', 'assets/playerMissile.png');
-  this.load.image('shield', 'assets/shield.png');
+  this.load.spritesheet('shield', 'assets/shield.png', 8, 32, 4);
   this.load.image('particle', 'assets/particle.png');
+  this.load.image('fire', 'assets/fire.png');
   this.load.spritesheet('sound_control', 'assets/sound_control.png', 32, 32, 2);
+  this.load.image('progress_bkg', 'assets/progress_bkg.png');
+  this.load.image('progress_keep', 'assets/progress_keep.png');
+  this.load.image('progress_other', 'assets/progress_other.png');
+  this.load.image('progress_goal', 'assets/progress_goal.png');
 
   this.load.image('background', 'assets/background.png');
 

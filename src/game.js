@@ -58,6 +58,38 @@ Game.prototype.create = function () {
   }
 
   this.theme.play()
+
+  if(this.game.difficulty == 'easy') {
+    this.prc_to_win = 0.7
+    this.prc_to_keep = 0.5
+  } else if(this.game.difficulty == 'medium') {
+    this.prc_to_win = 0.8
+    this.prc_to_keep = 0.7
+  } else if(this.game.difficulty == 'hard') {
+    this.prc_to_win = 0.9
+    this.prc_to_keep = 0.9
+  }
+
+  this.progress_bkg = this.game.add.sprite(this.game.width / 2, 30, 'progress_bkg')
+  this.progress_bkg.anchor.set(0.5)
+
+  this.progress_width = this.progress_bkg.width - 4
+
+  this.progress_keep = this.game.add.sprite(this.game.width / 2 - this.progress_bkg.width / 2 + 2 , this.progress_bkg.y - this.progress_bkg.height / 2 + 2, 'progress_keep')
+  this.progress_keep.width = 200
+
+  this.progress_other = this.game.add.sprite(this.game.width / 2 + this.progress_bkg.width / 2 - 2 , this.progress_bkg.y - this.progress_bkg.height / 2 + 2, 'progress_other')
+  this.progress_other.anchor.set(1, 0)
+  this.progress_other.width = 200
+
+  this.progress_goal = this.game.add.sprite(
+      (this.game.width / 2 - this.progress_bkg.width / 2 - 2) + this.progress_width * this.prc_to_win
+    , this.progress_bkg.y - this.progress_bkg.height / 2 + 2
+    , 'progress_goal')
+
+  this.updateProgress()
+
+  this.score = 0
 };
 
 Game.prototype.createShield = function () {
@@ -117,22 +149,21 @@ Game.prototype.update = function () {
     this.player.update(this.game.time.elapsed)
 
 
-    if(this.planet.nbBlocksToKeep < 30
-        || this.nbBlocksToKeep / this.baseNbBlocksToKeep < 0.8
-        ) {
+    if(this.nbBlocksToKeep / this.baseNbBlocksToKeep < this.prc_to_keep) {
       this.gameRunning = false
       this.gameWon = false
     }
-    if(this.planet.nbBlocksToKeep / this.planet.nbBlocks > 0.9) {
+    if(this.planet.nbBlocksToKeep / this.planet.nbBlocks > this.prc_to_win) {
       this.gameRunning = false
       this.gameWon = true
+      this.score = Math.floor((this.planet.nbBlocksToKeep / this.planet.baseNbBlocksToKeep) * 100)
     }
 
-    this.game.debug.text("N blocks : " + this.planet.nbBlocks, 10, 10)
-    this.game.debug.text("N blocks to keep : " + this.planet.nbBlocksToKeep, 10, 30)
-    this.game.debug.text("Prc : " + this.planet.nbBlocksToKeep / this.planet.nbBlocks, 10, 50)
-    this.game.debug.text("Destroyed missiles : " + this.player.destroyedMissiles, 10, 70)
-    this.game.debug.text("Shields : " + this.player.activeShields + " / " + this.player.maxShields + " (" + this.player.shieldLife + " life)", 10, 90)
+    //this.game.debug.text("N blocks : " + this.planet.nbBlocks, 10, 10)
+    //this.game.debug.text("N blocks to keep : " + this.planet.nbBlocksToKeep, 10, 30)
+    //this.game.debug.text("Prc : " + this.planet.nbBlocksToKeep / this.planet.nbBlocks, 10, 50)
+    //this.game.debug.text("Destroyed missiles : " + this.player.destroyedMissiles, 10, 70)
+    //this.game.debug.text("Shields : " + this.player.activeShields + " / " + this.player.maxShields + " (" + this.player.shieldLife + " life)", 10, 90)
 
     //for(var i in this.lines) this.game.debug.geom(this.lines[i])
 
@@ -141,8 +172,10 @@ Game.prototype.update = function () {
       this.aliensTimer.loop = false
 
       if(this.gameWon) {
-        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, 'You won!', {
-          font: '42px Arial', fill: '#ffffff', align: 'center'
+        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5,
+            'You won!\nScore : '+ this.score
+            , {
+          font: '42px Spacebar', fill: '#ffffff', align: 'center'
         });
         text.anchor.set(0.5);
       } else {
@@ -210,8 +243,17 @@ Game.prototype.missileHitPlanet = function (m, b) {
   this.planet.bits.forEachAlive(function(e) {
     if(e.keepIt) nbk++
   }, this, nbk)
-
   this.planet.nbBlocksToKeep = nbk
+
+  this.updateProgress()
+}
+
+Game.prototype.updateProgress = function () {
+  var nbk = this.planet.nbBlocksToKeep
+  var nbother = this.planet.nbBlocks - nbk
+
+  this.progress_keep.width = (nbk / this.planet.nbBlocks) * this.progress_width
+  this.progress_other.width = (nbother / this.planet.nbBlocks) * this.progress_width
 }
 
 Game.prototype.missileHitShield = function (m, s) {
@@ -226,6 +268,8 @@ Game.prototype.missileHitShield = function (m, s) {
   m.sprite.kill()
   m.destroy()
   s.sprite.life--
+  s.sprite.animations.play('bzz')
+
   if(s.sprite.life <= 0) {
     this.audio.vanish1.play()
     this.player.activeShields--

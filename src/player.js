@@ -32,6 +32,13 @@ Player.prototype.init = function(game) {
   this.shieldsCollisions = this.game.physics.p2.createCollisionGroup()
 
   this.destroyedMissiles = 0
+
+  this.particles = this.game.add.emitter(this.sprite.x,this.sprite.y, 150)
+  this.particles.makeParticles('fire')
+  this.particles.gravity = 0
+  this.particles.setRotation(10, 10)
+  this.particles.setAlpha(0.3, 0.8)
+  this.particles.setScale(0.5, 0.9, 0.5, 0.9)
 }
 
 Player.prototype.shield = function() {
@@ -42,6 +49,8 @@ Player.prototype.shield = function() {
   var y = this.sprite.y + Math.sin(this.angle) * 20
 
   var s = this.shields.create(x, y, 'shield')
+  s.animations.add('bzz', [1, 2, 3, 4, 1], 10)
+
   s.angle = this.angle * 180 / Math.PI
   s.life = this.shieldLife
   s.body.angle = s.angle
@@ -84,16 +93,21 @@ Player.prototype.fire = function() {
 
 Player.prototype.goLeft = function() {
   this.angle -= this.angleSpeed
+  this.particles.start(true, 300, null, 1)
 }
 
 Player.prototype.goRight = function() {
   this.angle += this.angleSpeed
+  this.particles.start(true, 300, null, 1)
 }
 
 Player.prototype.update = function(elapsed) {
   this.missileTimer = (this.missileTimer < 0) ? 0 : (this.missileTimer - elapsed)
 
   this.angleToPos(this.angle)
+  this.particles.x = this.sprite.x
+  this.particles.y = this.sprite.y
+
   this.sprite.angle = 90 + this.angle * 180 / Math.PI
 }
 

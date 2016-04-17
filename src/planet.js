@@ -97,8 +97,8 @@ Planet.prototype.generate = function(shape) {
     }
   }
 
-  this.baseNbBlocksToKeep = this.baseNbBlocksToKeep
-  this.baseNbBlocksp = this.nbBlocks
+  this.baseNbBlocksToKeep = this.nbBlocksToKeep
+  this.baseNbBlocks = this.nbBlocks
 
 }
 

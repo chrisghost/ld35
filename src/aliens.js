@@ -28,6 +28,7 @@ Aliens.prototype.launchMissile = function() {
   if(Math.random() > 0.3) {
     m = this.bigMissiles.create(fromx, fromy, 'missile')
     m.explosionSize = 1
+    m.body.angularVelocity = 3//.set(1)
   } else {
     m = this.missiles.create(fromx, fromy, 'big_missile')
     m.explosionSize = 8  + Math.random() * 16
