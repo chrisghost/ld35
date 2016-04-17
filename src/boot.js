@@ -18,6 +18,10 @@ Boot.prototype.preload = function () {
   this.load.image('progress_other', 'assets/progress_other.png');
   this.load.image('progress_goal', 'assets/progress_goal.png');
 
+  this.load.spritesheet('level_vrect', 'assets/level_vrect.png', 64, 64, 2);
+  this.load.spritesheet('level_triangle', 'assets/level_triangle.png', 64, 64, 2);
+  this.load.spritesheet('level_circle', 'assets/level_circle.png', 64, 64, 2);
+
   this.load.image('background', 'assets/background.png');
 
   this.load.audio('themesong', 'assets/finalsong2.mp3');

@@ -48,8 +48,9 @@ Planet.prototype.init = function(game, aliensMissilesCG) {
   }
 
 
+  console.log(this.game.shape)
 
-  this.generate('vrect')
+  this.generate(this.game.shape)
 
 
 }

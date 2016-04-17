@@ -15,6 +15,18 @@ Aliens.prototype.init = function(game) {
   this.baseSpeed = 100
 
   this.missilesCollisions = this.game.physics.p2.createCollisionGroup()
+
+  this.explosionSizes = {
+    'easy' : 16,
+    'medium' : 16,
+    'hard' : 20
+  }
+
+  this.bigMissileChance = {
+    'easy' : 0.1,
+    'medium' : 0.3,
+    'hard' : 0.5
+  }
 }
 
 Aliens.prototype.launchMissile = function() {
@@ -25,13 +37,13 @@ Aliens.prototype.launchMissile = function() {
 
   var m
 
-  if(Math.random() > 0.3) {
+  if(Math.random() > this.bigMissileChance[this.game.difficulty]) {
     m = this.bigMissiles.create(fromx, fromy, 'missile')
     m.explosionSize = 1
     m.body.angularVelocity = 3//.set(1)
   } else {
     m = this.missiles.create(fromx, fromy, 'big_missile')
-    m.explosionSize = 8  + Math.random() * 16
+    m.explosionSize = this.explosionSizes[this.game.difficulty]
   }
 
   //console.log(m.explosionSize)

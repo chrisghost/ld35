@@ -87,6 +87,8 @@ Menu.prototype.create = function () {
   this.btn_go.events.onInputDown.add(function() {
     this.game.difficulty = (this.btn_easy.frame == 1) ? 'easy' : (this.btn_medium.frame == 1) ? 'medium' : 'hard'
 
+    this.game.shape = (this.btn_vrect.frame == 1) ? 'vrect' : (this.btn_circle.frame == 1) ? 'circle' : 'triangle'
+
     this.game.state.start('game');
   }, this)
   var txt_go = this.add.text(this.game.width/2, 390, 'GO'
@@ -95,6 +97,35 @@ Menu.prototype.create = function () {
       }
   );
   txt_go.anchor.set(0.5);
+
+  this.btn_vrect = this.game.add.sprite(this.game.width / 2 - 64 - 20, 250, 'level_vrect')
+  this.btn_vrect.inputEnabled = true
+  this.btn_vrect.anchor.set(0.5)
+  this.btn_vrect.events.onInputDown.add(function() {
+    this.btn_vrect.frame = 1
+    this.btn_circle.frame = 0
+    this.btn_triangle.frame = 0
+  }, this)
+
+  this.btn_vrect.frame = 1
+
+  this.btn_circle = this.game.add.sprite(this.game.width / 2, 250, 'level_circle')
+  this.btn_circle.inputEnabled = true
+  this.btn_circle.anchor.set(0.5)
+  this.btn_circle.events.onInputDown.add(function() {
+    this.btn_vrect.frame = 0
+    this.btn_circle.frame = 1
+    this.btn_triangle.frame = 0
+  }, this)
+
+  this.btn_triangle = this.game.add.sprite(this.game.width / 2 + 64 + 20, 250, 'level_triangle')
+  this.btn_triangle.inputEnabled = true
+  this.btn_triangle.anchor.set(0.5)
+  this.btn_triangle.events.onInputDown.add(function() {
+    this.btn_vrect.frame = 0
+    this.btn_circle.frame = 0
+    this.btn_triangle.frame = 1
+  }, this)
 
 };
 

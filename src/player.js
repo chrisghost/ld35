@@ -86,6 +86,12 @@ Player.prototype.fire = function() {
     m.body.velocity.x = (Math.cos(from) * this.baseSpeed)
     m.body.velocity.y = (Math.sin(from) * this.baseSpeed)
     m.body.setCollisionGroup(this.missilesCollisions)
+
+    m.checkWorldBounds = true
+    m.events.onOutOfBounds.add(function(m) {
+      m.kill()
+      m.body.destroy()
+    })
   //}
   //
   return m

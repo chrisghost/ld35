@@ -15,6 +15,7 @@ Game.prototype.create = function () {
     this.sound_control.frame = this.game.sound.mute ? 1 : 0
   }, this);
 
+  this.game.world.setBounds(0, 0, this.game.width, this.game.height)
   this.game.physics.startSystem(Phaser.Physics.P2JS)
   this.game.physics.p2.setImpactEvents(true);
 
@@ -60,11 +61,11 @@ Game.prototype.create = function () {
   this.theme.play()
 
   if(this.game.difficulty == 'easy') {
-    this.prc_to_win = 0.7
-    this.prc_to_keep = 0.5
+    this.prc_to_win = 0.75
+    this.prc_to_keep = 0.65
   } else if(this.game.difficulty == 'medium') {
     this.prc_to_win = 0.8
-    this.prc_to_keep = 0.7
+    this.prc_to_keep = 0.8
   } else if(this.game.difficulty == 'hard') {
     this.prc_to_win = 0.9
     this.prc_to_keep = 0.9
@@ -117,12 +118,6 @@ Game.prototype.launchPlayerMissile = function () {
 
   this.audio.laser1.play()
 
-  m.body.collides(this.game.physics.p2.boundsCollisionGroup,
-      function(m, b) {
-        m.sprite.kill()
-        m.destroy()
-      })
-
   m.body.collides(this.aliens.missilesCollisions, this.missileHit, this)
 }
 
@@ -149,7 +144,7 @@ Game.prototype.update = function () {
     this.player.update(this.game.time.elapsed)
 
 
-    if(this.nbBlocksToKeep / this.baseNbBlocksToKeep < this.prc_to_keep) {
+    if(this.planet.nbBlocksToKeep / this.planet.baseNbBlocksToKeep < this.prc_to_keep) {
       this.gameRunning = false
       this.gameWon = false
     }
@@ -192,19 +187,12 @@ Game.prototype.missileHitPlanet = function (m, b) {
 
   this.particleBurst(m.sprite.x, m.sprite.y)
 
-
-  if(b.sprite.keepIt) {
-    this.game.plugins.screenShake.shake(10)
-    this.audio.explosion2.play()
-  } else {
-    this.audio.explosion1.play()
-  }
-
-  console.log(m.sprite.explosionSize)
+  var shake = false
+  if(b != null)
+    shake = b.sprite.keepIt
 
   if(m.sprite.explosionSize > 1) {
     var bodies = this.game.physics.p2.getBodies()
-      console.log("YEAH")
     var todestroy = []
     for(var i in bodies) {
       //console.log(bodies[i])
@@ -215,6 +203,7 @@ Game.prototype.missileHitPlanet = function (m, b) {
         if(this.planet.dst(
               {x: bodies[i].x, y: bodies[i].y}
             , {x: m.sprite.x, y:m.sprite.y}) < m.sprite.explosionSize) {
+          if(bodies[i].sprite.keepIt) shake = true
           todestroy.push(bodies[i])
         }
       } catch (err) {
@@ -223,12 +212,14 @@ Game.prototype.missileHitPlanet = function (m, b) {
     }
   }
 
-
   m.sprite.kill()
   m.destroy()
 
-  b.sprite.kill()
-  b.destroy()
+  if(b != null) {
+    b.sprite.kill()
+    b.destroy()
+  }
+
   for(var i in todestroy) {
     if(todestroy[i] != null) {
       if(todestroy[i].sprite != null)
@@ -236,6 +227,14 @@ Game.prototype.missileHitPlanet = function (m, b) {
       todestroy[i].destroy()
     }
   }
+
+  if(shake) {
+    this.game.plugins.screenShake.shake(10)
+    this.audio.explosion2.play()
+  } else {
+    this.audio.explosion1.play()
+  }
+
 
 
   this.planet.nbBlocks = this.planet.bits.countLiving()
@@ -257,7 +256,7 @@ Game.prototype.updateProgress = function () {
 }
 
 Game.prototype.missileHitShield = function (m, s) {
-  console.log("missileHitShield ", s.sprite.life)
+  //console.log("missileHitShield ", s.sprite.life)
   this.audio.hit1.play()
 
   this.player.destroyedMissile()
@@ -280,7 +279,7 @@ Game.prototype.missileHitShield = function (m, s) {
 }
 
 Game.prototype.missileHit = function (m, b) {
-  console.log("missileHit ")
+  //console.log("missileHit ")
 
   this.audio.hit2.play()
 
