@@ -10,6 +10,8 @@ Boot.prototype.preload = function () {
   this.load.image('shield', 'assets/shield.png');
   this.load.image('particle', 'assets/particle.png');
 
+  this.load.image('background', 'assets/background.png');
+
   this.load.audio('explosion1', 'assets/explosion1.wav');
   this.load.audio('explosion2', 'assets/explosion2.wav');
   this.load.audio('laser1', 'assets/laser1.wav');

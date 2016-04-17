@@ -3,6 +3,9 @@ function Game() {}
 Game.prototype.create = function () {
   this.game.plugins.screenShake = this.game.plugins.add(Phaser.Plugin.ScreenShake);
 
+  this.bkg = this.game.add.tileSprite(0, 0, 800, 600, 'background')
+  this.bkg_xslide = (Math.random() > 0.5) ? 0.1 : -0.1
+  this.bkg_yslide = (Math.random() > 0.5) ? 0.1 : -0.1
 
   this.game.physics.startSystem(Phaser.Physics.P2JS)
   this.game.physics.p2.setImpactEvents(true);
@@ -86,6 +89,9 @@ Game.prototype.particleBurst = function (x, y) {
 }
 
 Game.prototype.update = function () {
+  this.bkg.tilePosition.x += this.bkg_xslide
+  this.bkg.tilePosition.y += this.bkg_yslide
+
   if(this.gameRunning) {
     if(this.cursors.up.isDown) {
       this.launchPlayerMissile()
