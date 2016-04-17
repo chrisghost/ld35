@@ -3,7 +3,14 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  font-family: 'Spacebar';
 }
 canvas {
   display: block;
 }
+
+@font-face {
+  font-family: 'Spacebar';
+  src: url('../assets/SPACEBAR.ttf') format('truetype');
+}
+

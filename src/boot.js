@@ -9,8 +9,11 @@ Boot.prototype.preload = function () {
   this.load.image('player_missile', 'assets/playerMissile.png');
   this.load.image('shield', 'assets/shield.png');
   this.load.image('particle', 'assets/particle.png');
+  this.load.spritesheet('sound_control', 'assets/sound_control.png', 32, 32, 2);
 
   this.load.image('background', 'assets/background.png');
+
+  this.load.audio('themesong', 'assets/finalsong2.mp3');
 
   this.load.audio('explosion1', 'assets/explosion1.wav');
   this.load.audio('explosion2', 'assets/explosion2.wav');

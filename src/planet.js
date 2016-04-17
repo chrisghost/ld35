@@ -84,9 +84,13 @@ Planet.prototype.generate = function(shape) {
 
         if(this.shapes[shape](x, y)) {
         //if(this.inFinalShapeCircle(x, y)) {
-          sp.tint = 0xffaaff
+          sp.tint = 0xFF2222
           sp.keepIt = true
           this.nbBlocksToKeep++
+        }
+
+        if(Math.abs(this.dst(sp, this.planetCenter) - this.radius) <= this.bitsSize) {
+          sp.tint = 0x22FF22
         }
       }
 

@@ -7,6 +7,14 @@ Game.prototype.create = function () {
   this.bkg_xslide = (Math.random() > 0.5) ? 0.1 : -0.1
   this.bkg_yslide = (Math.random() > 0.5) ? 0.1 : -0.1
 
+  this.sound_control = this.game.add.sprite(this.game.width - 42, 10, 'sound_control')
+  this.sound_control.inputEnabled = true
+
+  this.sound_control.events.onInputDown.add(function() {
+    this.game.sound.mute = !this.game.sound.mute
+    this.sound_control.frame = this.game.sound.mute ? 1 : 0
+  }, this);
+
   this.game.physics.startSystem(Phaser.Physics.P2JS)
   this.game.physics.p2.setImpactEvents(true);
 
@@ -38,6 +46,8 @@ Game.prototype.create = function () {
 
   this.lines = []
 
+  this.theme = this.game.add.audio('themesong', 0.7, true)
+
   this.audio = {
     'explosion1': this.game.add.audio('explosion1', 0.3)
   , 'explosion2': this.game.add.audio('explosion2', 0.3)
@@ -46,6 +56,8 @@ Game.prototype.create = function () {
   , 'hit2': this.game.add.audio('hit2', 0.3)
   , 'vanish1': this.game.add.audio('vanish1', 0.3)
   }
+
+  this.theme.play()
 };
 
 Game.prototype.createShield = function () {
