@@ -12,9 +12,8 @@ Menu.prototype.create = function () {
 
   var text = this.add.text(
       this.game.width * 0.5,
-      this.game.height * 0.3,
-      'Planet Shaper\n' +
-      '\n'
+      this.game.height * 0.15,
+      'SHAPLANET\n'
       , {
         font: '42px Spacebar', fill: '#ffffff', align: 'center'
       }
@@ -23,17 +22,17 @@ Menu.prototype.create = function () {
 
   var credits = this.add.text(
       this.game.width * 0.5,
-      this.game.height * 0.9,
-      'by @chradr for Ludum Dare #35 Theme: \'Shapeshift\''
+      this.game.height * 0.95,
+      'by @chradr for Ludum Dare Compo #35 Theme: \'Shapeshift\''
       , {
-        font: '24px bold Arial', fill: '#ffffff', align: 'center'
+        font: '20px bold Arial', fill: '#ffffff', align: 'center'
       }
   );
   credits.anchor.set(0.5);
 
   //text.font = 'Spacebar'
 
-  this.btn_easy = this.game.add.sprite(130, 160, 'button')
+  this.btn_easy = this.game.add.sprite(130, 100, 'button')
   this.btn_easy.inputEnabled = true
   this.btn_easy.anchor.set(0.5)
   this.btn_easy.events.onInputDown.add(function() {
@@ -41,7 +40,7 @@ Menu.prototype.create = function () {
     this.btn_medium.frame = 0
     this.btn_hard.frame = 0
   }, this)
-  var txt_easy = this.add.text(135, 165, 'EASY'
+  var txt_easy = this.add.text(135, 105, 'EASY'
       , {
         font: '24px Spacebar', fill: '#ffffff', align: 'center'
       }
@@ -49,7 +48,7 @@ Menu.prototype.create = function () {
   txt_easy.anchor.set(0.5);
 
 
-  this.btn_medium = this.game.add.sprite(this.game.width/2, 160, 'button')
+  this.btn_medium = this.game.add.sprite(this.game.width/2, 100, 'button')
   this.btn_medium.inputEnabled = true
   this.btn_medium.anchor.set(0.5)
   this.btn_medium.events.onInputDown.add(function() {
@@ -57,7 +56,7 @@ Menu.prototype.create = function () {
     this.btn_medium.frame = 1
     this.btn_hard.frame = 0
   }, this)
-  var txt_medium = this.add.text(this.game.width/2, 165, 'MEDIUM'
+  var txt_medium = this.add.text(this.game.width/2, 105, 'MEDIUM'
       , {
         font: '24px Spacebar', fill: '#ffffff', align: 'center'
       }
@@ -65,7 +64,7 @@ Menu.prototype.create = function () {
   txt_medium.anchor.set(0.5);
   this.btn_medium.frame = 1
 
-  this.btn_hard = this.game.add.sprite(510, 160, 'button')
+  this.btn_hard = this.game.add.sprite(510, 100, 'button')
   this.btn_hard.inputEnabled = true
   this.btn_hard.anchor.set(0.5)
   this.btn_hard.events.onInputDown.add(function() {
@@ -73,7 +72,7 @@ Menu.prototype.create = function () {
     this.btn_medium.frame = 0
     this.btn_hard.frame = 1
   }, this)
-  var txt_hard = this.add.text(505, 165, 'HARD'
+  var txt_hard = this.add.text(505, 105, 'HARD'
       , {
         font: '24px Spacebar', fill: '#ffffff', align: 'center'
       }
@@ -81,7 +80,7 @@ Menu.prototype.create = function () {
   txt_hard.anchor.set(0.5);
 
 
-  this.btn_go = this.game.add.sprite(this.game.width/2, 380, 'button')
+  this.btn_go = this.game.add.sprite(this.game.width/2, 400, 'button')
   this.btn_go.inputEnabled = true
   this.btn_go.anchor.set(0.5)
   this.btn_go.events.onInputDown.add(function() {
@@ -91,14 +90,21 @@ Menu.prototype.create = function () {
 
     this.game.state.start('game');
   }, this)
-  var txt_go = this.add.text(this.game.width/2, 390, 'GO'
+  var txt_go = this.add.text(this.game.width/2, 410, 'GO'
       , {
         font: '24px Spacebar', fill: '#ffffff', align: 'center'
       }
   );
   txt_go.anchor.set(0.5);
 
-  this.btn_vrect = this.game.add.sprite(this.game.width / 2 - 64 - 20, 250, 'level_vrect')
+  var txt_shapes = this.add.text(this.game.width/2 - 64 - 20 - 50, 210, 'Shape ='
+      , {
+        font: '24px Spacebar', fill: '#ffffff', align: 'center'
+      }
+  );
+  txt_shapes.anchor.set(1)
+
+  this.btn_vrect = this.game.add.sprite(this.game.width / 2 - 64 - 20, 180, 'level_vrect')
   this.btn_vrect.inputEnabled = true
   this.btn_vrect.anchor.set(0.5)
   this.btn_vrect.events.onInputDown.add(function() {
@@ -109,7 +115,7 @@ Menu.prototype.create = function () {
 
   this.btn_vrect.frame = 1
 
-  this.btn_circle = this.game.add.sprite(this.game.width / 2, 250, 'level_circle')
+  this.btn_circle = this.game.add.sprite(this.game.width / 2, 180, 'level_circle')
   this.btn_circle.inputEnabled = true
   this.btn_circle.anchor.set(0.5)
   this.btn_circle.events.onInputDown.add(function() {
@@ -118,7 +124,7 @@ Menu.prototype.create = function () {
     this.btn_triangle.frame = 0
   }, this)
 
-  this.btn_triangle = this.game.add.sprite(this.game.width / 2 + 64 + 20, 250, 'level_triangle')
+  this.btn_triangle = this.game.add.sprite(this.game.width / 2 + 64 + 20, 180, 'level_triangle')
   this.btn_triangle.inputEnabled = true
   this.btn_triangle.anchor.set(0.5)
   this.btn_triangle.events.onInputDown.add(function() {
@@ -126,6 +132,20 @@ Menu.prototype.create = function () {
     this.btn_circle.frame = 0
     this.btn_triangle.frame = 1
   }, this)
+
+
+
+
+  var txt_instructions = this.add.text(this.game.width/2, 300,
+      "Reshape the planet into the form shown in red\n"+
+      "LEFT / RIGHT  = Rotate around the planet\n"+
+      "UP = Shoot       DOWN = shield\n"+
+      "You need to let some asteroids destroy the planet, but not all!"
+      , {
+        font: '22px Arial', fill: '#ffffff', align: 'center'
+      }
+  );
+  txt_instructions.anchor.set(0.5)
 
 };
 
