@@ -9,8 +9,3 @@ canvas {
   display: block;
 }
 
-@font-face {
-  font-family: 'Spacebar';
-  src: url('../assets/SPACEBAR.ttf') format('truetype');
-}
-

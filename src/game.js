@@ -67,7 +67,7 @@ Game.prototype.create = function () {
 
 
   if(this.game.difficulty == 'easy') {
-    this.prc_to_win = 0.8
+    this.prc_to_win = 0.75
     this.prc_to_keep = 0.65
   } else if(this.game.difficulty == 'medium') {
     this.prc_to_win = 0.9
@@ -173,13 +173,13 @@ Game.prototype.update = function () {
     }
 
     if(!this.gameRunning) {
-      this.btn_next = this.game.add.sprite(this.game.width/2, this.game.height * 0.8, 'button')
+      this.btn_next = this.game.add.sprite(this.game.width/2, this.game.height * 0.9, 'button')
       this.btn_next.inputEnabled = true
       this.btn_next.anchor.set(0.5)
       this.btn_next.events.onInputDown.add(function() {
         this.game.state.start('menu')
       }, this)
-      var txt_next = this.add.text(this.game.width/2, this.game.height * 0.8 + 10, 'MENU'
+      var txt_next = this.add.text(this.game.width/2, this.game.height * 0.9 + 10, 'MENU'
           , {
             font: '24px Spacebar', fill: '#ffffff', align: 'center'
           }
@@ -201,16 +201,33 @@ Game.prototype.update = function () {
 
       if(this.gameWon) {
         var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5,
-            'You won!\nScore : '+ this.score
+            'You won\nScore : '+ this.score 
             , {
-          font: '42px Spacebar', fill: '#ffffff', align: 'center'
+          font: '20px Spacebar', fill: '#ffffff', align: 'center'
         });
         text.anchor.set(0.5);
+        var text2 = this.add.text(this.game.width * 0.5, this.game.height * 0.5 + 40,
+            "You saved "+this.score+"% of red blocks"
+            , {
+          font: '24px Arial', fill: '#ffffff', align: 'center'
+        });
+        text2.anchor.set(0.5);
+
       } else {
-        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, 'You lost!', {
-          font: '42px Arial', fill: '#ffffff', align: 'center'
+        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5,
+            "You lost !"
+            , {
+          font: '28px Spacebar', fill: '#ffffff', align: 'center'
         });
         text.anchor.set(0.5);
+
+        var text2 = this.add.text(this.game.width * 0.5, this.game.height * 0.5 + 100,
+            "You had to save\nat least "+(this.prc_to_keep*100)+"% of red blocks !\n"+
+            "There is only "+Math.floor((this.planet.nbBlocksToKeep / this.planet.baseNbBlocksToKeep) * 100) + "% left right now"
+            , {
+          font: '24px Arial', fill: '#ffffff', align: 'center'
+        });
+        text2.anchor.set(0.5);
       }
 
   }
