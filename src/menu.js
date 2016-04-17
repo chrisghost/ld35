@@ -2,6 +2,10 @@ function Menu() {}
 
 Menu.prototype.create = function () {
   //this.input.onDown.add(this.onInputDown, this);
+  if(this.game.theme == null) {
+    this.game.theme = this.game.add.audio('themesong', 0.7, true)
+    this.game.theme.play()
+  }
 
   this.bkg = this.game.add.tileSprite(0, 0, 800, 600, 'background')
   this.bkg_xslide = (Math.random() > 0.5) ? 0.1 : -0.1

@@ -47,8 +47,6 @@ Game.prototype.create = function () {
 
   this.lines = []
 
-  this.theme = this.game.add.audio('themesong', 0.7, true)
-
   this.audio = {
     'explosion1': this.game.add.audio('explosion1', 0.3)
   , 'explosion2': this.game.add.audio('explosion2', 0.3)
@@ -58,16 +56,15 @@ Game.prototype.create = function () {
   , 'vanish1': this.game.add.audio('vanish1', 0.3)
   }
 
-  this.theme.play()
 
   if(this.game.difficulty == 'easy') {
-    this.prc_to_win = 0.75
+    this.prc_to_win = 0.8
     this.prc_to_keep = 0.65
   } else if(this.game.difficulty == 'medium') {
-    this.prc_to_win = 0.8
+    this.prc_to_win = 0.9
     this.prc_to_keep = 0.8
   } else if(this.game.difficulty == 'hard') {
-    this.prc_to_win = 0.9
+    this.prc_to_win = 0.95
     this.prc_to_keep = 0.9
   }
 
@@ -91,6 +88,8 @@ Game.prototype.create = function () {
   this.updateProgress()
 
   this.score = 0
+
+  this.game.physics.p2.paused = false
 };
 
 Game.prototype.createShield = function () {
@@ -154,6 +153,21 @@ Game.prototype.update = function () {
       this.score = Math.floor((this.planet.nbBlocksToKeep / this.planet.baseNbBlocksToKeep) * 100)
     }
 
+    if(!this.gameRunning) {
+      this.btn_next = this.game.add.sprite(this.game.width/2, this.game.height * 0.8, 'button')
+      this.btn_next.inputEnabled = true
+      this.btn_next.anchor.set(0.5)
+      this.btn_next.events.onInputDown.add(function() {
+        this.game.state.start('menu')
+      }, this)
+      var txt_next = this.add.text(this.game.width/2, this.game.height * 0.8 + 10, 'MENU'
+          , {
+            font: '24px Spacebar', fill: '#ffffff', align: 'center'
+          }
+      );
+      txt_next.anchor.set(0.5);
+    }
+
     //this.game.debug.text("N blocks : " + this.planet.nbBlocks, 10, 10)
     //this.game.debug.text("N blocks to keep : " + this.planet.nbBlocksToKeep, 10, 30)
     //this.game.debug.text("Prc : " + this.planet.nbBlocksToKeep / this.planet.nbBlocks, 10, 50)
@@ -163,7 +177,7 @@ Game.prototype.update = function () {
     //for(var i in this.lines) this.game.debug.geom(this.lines[i])
 
   } else {
-      this.game.physics.p2.paused = true //console.log("You win!!")
+      this.game.physics.p2.paused = true
       this.aliensTimer.loop = false
 
       if(this.gameWon) {
